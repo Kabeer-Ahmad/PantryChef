@@ -46,18 +46,18 @@ export default function RecipeDetailsModal({ recipe, isOpen, onClose }: RecipeDe
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
                     />
 
                     {/* Modal */}
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 pointer-events-none">
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 md:pt-20 pointer-events-none">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden pointer-events-auto flex flex-col"
+                            className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[calc(95vh-5rem)] md:max-h-[calc(90vh-5rem)] overflow-hidden pointer-events-auto flex flex-col"
                         >
                             {/* Header */}
                             <div className="bg-gradient-to-r from-cyan-50 to-blue-50 p-4 sm:p-6 border-b border-gray-200 flex-shrink-0">
