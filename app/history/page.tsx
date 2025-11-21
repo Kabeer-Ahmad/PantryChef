@@ -3,6 +3,7 @@ import RecipeCard from '@/components/RecipeCard'
 import { redirect } from 'next/navigation'
 import { BookOpen, Search, Calendar, ChefHat } from 'lucide-react'
 import HistoryClient from './HistoryClient'
+import AnimatedBackground from '@/components/AnimatedBackground'
 
 export default async function HistoryPage() {
     const supabase = await createClient()
@@ -38,8 +39,9 @@ export default async function HistoryPage() {
     }, {}) || {}
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 py-8 sm:py-12 pb-24 md:pb-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 py-8 sm:py-12 pb-24 md:pb-12 relative overflow-hidden">
+            <AnimatedBackground />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header Section */}
                 <div className="mb-8 sm:mb-12">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

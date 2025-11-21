@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Loader2, Plus, X, ChevronDown, Sparkles } from 'lucide-react'
+import { Loader2, Plus, X, ChevronDown, Sparkles, PartyPopper } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import RecipeCard from './RecipeCard'
+import confetti from 'canvas-confetti'
 
 // Comprehensive ingredient database organized by category
 const INGREDIENT_SUGGESTIONS = {
@@ -151,6 +152,51 @@ export default function RecipeGenerator() {
         setShowCategories(false)
     }
 
+    const triggerCelebration = () => {
+        // Fireworks effect
+        const duration = 3000
+        const animationEnd = Date.now() + duration
+        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+
+        function randomInRange(min: number, max: number) {
+            return Math.random() * (max - min) + min
+        }
+
+        const interval: any = setInterval(function() {
+            const timeLeft = animationEnd - Date.now()
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval)
+            }
+
+            const particleCount = 50 * (timeLeft / duration)
+            
+            // Launch from left
+            confetti({
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+            })
+            
+            // Launch from right
+            confetti({
+                ...defaults,
+                particleCount,
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+            })
+        }, 250)
+
+        // Center burst
+        setTimeout(() => {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b']
+            })
+        }, 100)
+    }
+
     const generateRecipe = async () => {
         if (ingredients.length === 0) return
 
@@ -165,27 +211,46 @@ export default function RecipeGenerator() {
                 body: JSON.stringify({ ingredients }),
             })
 
-            if (!res.ok) throw new Error('Failed to generate recipe')
-
             const data = await res.json()
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Failed to generate recipe')
+            }
+
             setRecipe(data)
-        } catch (err) {
-            setError('Something went wrong. Please try again.')
+            
+            // Trigger celebration animation after a small delay
+            setTimeout(() => {
+                triggerCelebration()
+            }, 100)
+        } catch (err: any) {
+            setError(err.message || 'Something went wrong. Please try again.')
         } finally {
             setLoading(false)
         }
     }
 
+    const handleGenerateNew = () => {
+        setRecipe(null)
+        setIngredients([])
+        setCurrentIngredient('')
+        setError('')
+    }
+
     return (
         <div className="w-full max-w-4xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-4 sm:p-6 md:p-8 mb-8 sm:mb-12"
-            >
-                <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center gap-2">
-                    <span className="text-2xl sm:text-3xl">🥘</span> What's in your pantry?
-                </h2>
+            <AnimatePresence mode="wait">
+                {!recipe ? (
+                    <motion.div
+                        key="input-section"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-4 sm:p-6 md:p-8 mb-8 sm:mb-12"
+                    >
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center gap-2">
+                            <span className="text-2xl sm:text-3xl">🥘</span> What's in your pantry?
+                        </h2>
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-4">
                     <div className="relative flex-1 group">
@@ -340,25 +405,66 @@ export default function RecipeGenerator() {
                     )}
                 </button>
 
-                {error && (
-                    <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-red-500 mt-6 text-center bg-red-50 py-3 rounded-xl border border-red-100"
-                    >
-                        {error}
-                    </motion.p>
-                )}
-            </motion.div>
-
-            <AnimatePresence>
-                {recipe && (
+                        {error && (
+                            <motion.p
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-red-500 mt-6 text-center bg-red-50 py-3 rounded-xl border border-red-100"
+                            >
+                                {error}
+                            </motion.p>
+                        )}
+                    </motion.div>
+                ) : (
                     <motion.div
-                        initial={{ opacity: 0, y: 40 }}
+                        key="recipe-section"
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="mt-8"
+                        exit={{ opacity: 0, y: -20 }}
+                        className="mb-6"
                     >
+                        {/* Celebration Header with Generate New Button */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                            className="mb-4 sm:mb-6"
+                        >
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-gradient-to-r from-cyan-50 to-blue-50 px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl border-2 border-cyan-200 shadow-lg">
+                                <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                                    <motion.div
+                                        animate={{ 
+                                            rotate: [0, -10, 10, -10, 0],
+                                            scale: [1, 1.2, 1]
+                                        }}
+                                        transition={{ 
+                                            duration: 0.5,
+                                            repeat: 2,
+                                            repeatDelay: 0.2
+                                        }}
+                                        className="flex-shrink-0"
+                                    >
+                                        <PartyPopper className="text-cyan-600 sm:w-6 sm:h-6" size={20} />
+                                    </motion.div>
+                                    <div className="min-w-0 flex-1">
+                                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-0.5 leading-tight">
+                                            Ta-da! Your Recipe is Ready!
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-gray-600">
+                                            Below is the recipe crafted especially for you
+                                        </p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={handleGenerateNew}
+                                    className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white text-cyan-600 rounded-lg font-medium hover:bg-cyan-50 border border-cyan-200 transition-all hover:shadow-sm active:scale-95 text-xs sm:text-sm md:text-base whitespace-nowrap flex-shrink-0"
+                                >
+                                    <Plus className="rotate-45 sm:w-4 sm:h-4" size={14} />
+                                    <span className="hidden sm:inline">New Recipe</span>
+                                    <span className="sm:hidden">New</span>
+                                </button>
+                            </div>
+                        </motion.div>
                         <RecipeCard recipe={recipe} />
                     </motion.div>
                 )}

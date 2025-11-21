@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import RecipeCard from '@/components/RecipeCard'
+import RecipeCardPreview from '@/components/RecipeCardPreview'
 import { Search, Calendar, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -20,11 +20,13 @@ export default function HistoryClient({ initialRecipes, recipesByDate }: History
 
         const query = searchQuery.toLowerCase()
         return initialRecipes.filter((recipe: any) => {
-            const title = recipe.title?.toLowerCase() || ''
-            const ingredients = recipe.ingredients?.join(' ').toLowerCase() || ''
-            const instructions = recipe.instructions?.toLowerCase() || ''
+            const title = recipe.recipe_json?.title?.toLowerCase() || ''
+            const description = recipe.recipe_json?.description?.toLowerCase() || ''
+            const ingredients = recipe.recipe_json?.ingredients?.join(' ').toLowerCase() || ''
+            const instructions = recipe.recipe_json?.instructions?.join(' ').toLowerCase() || ''
             
             return title.includes(query) || 
+                   description.includes(query) ||
                    ingredients.includes(query) || 
                    instructions.includes(query)
         })
@@ -121,29 +123,29 @@ export default function HistoryClient({ initialRecipes, recipesByDate }: History
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                                     {recipes.map((recipe: any) => (
-                                        <RecipeCard key={recipe.id} recipe={recipe} />
+                                        <RecipeCardPreview key={recipe.id} recipe={recipe} />
                                     ))}
                                 </div>
                             </motion.div>
                         ))}
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    <AnimatePresence mode="popLayout">
-                        {filteredRecipes.map((recipe: any) => (
-                            <motion.div
-                                key={recipe.id}
-                                layout
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <RecipeCard recipe={recipe} />
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                                    <AnimatePresence mode="popLayout">
+                                        {filteredRecipes.map((recipe: any) => (
+                                            <motion.div
+                                                key={recipe.id}
+                                                layout
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                <RecipeCardPreview recipe={recipe} />
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
+                                </div>
             )}
         </>
     )

@@ -2,6 +2,7 @@
 
 import { updateProfile } from './actions'
 import { useState } from 'react'
+import { ChefHat } from 'lucide-react'
 
 const DIETARY_OPTIONS = ['Vegan', 'Vegetarian', 'Pescatarian', 'Gluten-Free', 'Keto', 'Paleo', 'Dairy-Free', 'Halal', 'Kosher', 'Low Carb', 'Whole30', 'Low FODMAP']
 const COMMON_ALLERGIES = ['Peanuts', 'Tree Nuts', 'Milk', 'Eggs', 'Wheat', 'Soy', 'Fish', 'Shellfish', 'Sesame', 'Mustard', 'Sulfites', 'Corn']
@@ -34,19 +35,31 @@ export default function ProfileForm({ profile }: ProfileFormProps) {
 
     return (
         <form action={handleSubmit} className="space-y-8">
-            <div>
-                <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2 ml-1">
-                    Display Name
-                </label>
-                <div className="relative">
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        defaultValue={profile?.name || ''}
-                        className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-400 outline-none transition-all text-gray-900 font-medium placeholder-gray-400"
-                        placeholder="Chef John"
-                    />
+            {/* Header with Display Name on desktop */}
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8 border-b border-gray-100 pb-6">
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg shadow-cyan-500/30">
+                        <ChefHat size={24} className="text-white" />
+                    </div>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">Your Profile</h1>
+                        <p className="text-gray-500">Customize your cooking preferences</p>
+                    </div>
+                </div>
+                <div className="md:w-80 flex-shrink-0">
+                    <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2 ml-1">
+                        Display Name
+                    </label>
+                    <div className="relative">
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            defaultValue={profile?.name || ''}
+                            className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-400 outline-none transition-all text-gray-900 font-medium placeholder-gray-400"
+                            placeholder="Chef John"
+                        />
+                    </div>
                 </div>
             </div>
 
