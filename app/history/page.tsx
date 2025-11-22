@@ -13,7 +13,7 @@ export default async function HistoryPage() {
     } = await supabase.auth.getUser()
 
     if (!user) {
-        redirect('/login')
+        redirect('/')
     }
 
     const { data: recipes } = await supabase
@@ -39,23 +39,23 @@ export default async function HistoryPage() {
     }, {}) || {}
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 py-8 sm:py-12 pb-24 md:pb-12 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 sm:py-12 pb-24 md:pb-12 relative overflow-hidden transition-colors duration-300">
             <AnimatedBackground />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header Section */}
                 <div className="mb-8 sm:mb-12">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 flex items-center gap-3">
-                            <div className="p-2 bg-cyan-100 rounded-xl">
-                                <BookOpen className="text-cyan-600" size={24} />
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3 transition-colors duration-300">
+                            <div className="p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-xl transition-colors duration-300">
+                                <BookOpen className="text-cyan-600 dark:text-cyan-400" size={24} />
                             </div>
                             <span>Your Recipe History</span>
                         </h1>
                         {recipeCount > 0 && (
-                            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
-                                <ChefHat className="text-cyan-600" size={20} />
-                                <span className="text-sm sm:text-base font-semibold text-gray-700">
-                                    <span className="text-cyan-600">{recipeCount}</span> {recipeCount === 1 ? 'Recipe' : 'Recipes'}
+                            <div className="flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300">
+                                <ChefHat className="text-cyan-600 dark:text-cyan-400" size={20} />
+                                <span className="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300 transition-colors duration-300">
+                                    <span className="text-cyan-600 dark:text-cyan-400 transition-colors duration-300">{recipeCount}</span> {recipeCount === 1 ? 'Recipe' : 'Recipes'}
                                 </span>
                             </div>
                         )}
@@ -66,13 +66,13 @@ export default async function HistoryPage() {
                 <HistoryClient initialRecipes={recipes || []} recipesByDate={recipesByDate} />
 
                 {recipeCount === 0 ? (
-                    <div className="text-center py-16 sm:py-20 bg-white/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-dashed border-gray-300 shadow-sm">
+                    <div className="text-center py-16 sm:py-20 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 shadow-sm transition-colors duration-300">
                         <div className="max-w-md mx-auto">
-                            <div className="w-20 h-20 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <ChefHat className="text-cyan-600" size={40} />
+                            <div className="w-20 h-20 bg-cyan-100 dark:bg-cyan-900/50 rounded-full flex items-center justify-center mx-auto mb-6 transition-colors duration-300">
+                                <ChefHat className="text-cyan-600 dark:text-cyan-400" size={40} />
                             </div>
-                            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3">No recipes yet</h3>
-                            <p className="text-gray-500 text-base sm:text-lg mb-6">
+                            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 transition-colors duration-300">No recipes yet</h3>
+                            <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg mb-6 transition-colors duration-300">
                                 Start creating delicious recipes from your pantry ingredients!
                             </p>
                             <a

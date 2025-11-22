@@ -246,9 +246,9 @@ export default function RecipeGenerator() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 p-4 sm:p-6 md:p-8 mb-8 sm:mb-12"
+                        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 dark:border-gray-700/50 p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 transition-colors duration-300"
                     >
-                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center gap-2">
+                        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-gray-100 flex items-center gap-2 transition-colors duration-300">
                             <span className="text-2xl sm:text-3xl">🥘</span> What's in your pantry?
                         </h2>
 
@@ -267,7 +267,7 @@ export default function RecipeGenerator() {
                                 if (suggestions.length > 0) setShowSuggestions(true)
                             }}
                             placeholder="Type an ingredient..."
-                            className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:ring-4 focus:ring-cyan-100 focus:border-cyan-400 outline-none transition-all text-base sm:text-lg placeholder-gray-400 group-hover:border-gray-200"
+                            className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-100 dark:border-gray-600 rounded-2xl focus:ring-4 focus:ring-cyan-100 dark:focus:ring-cyan-900/50 focus:border-cyan-400 dark:focus:border-cyan-500 outline-none transition-all text-base sm:text-lg placeholder-gray-400 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 group-hover:border-gray-200 dark:group-hover:border-gray-500"
                         />
                         <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs sm:text-sm hidden sm:block">
                             Press Enter
@@ -277,20 +277,20 @@ export default function RecipeGenerator() {
                         {showSuggestions && suggestions.length > 0 && (
                             <div
                                 ref={suggestionsRef}
-                                className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-xl max-h-48 sm:max-h-64 overflow-y-auto"
+                                className="absolute z-50 w-full mt-2 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl max-h-48 sm:max-h-64 overflow-y-auto transition-colors duration-300"
                             >
                                 {suggestions.map((suggestion, index) => (
                                     <button
                                         key={`${suggestion}-${index}`}
                                         type="button"
                                         onClick={() => addIngredient(suggestion)}
-                                        className={`w-full text-left px-4 py-3 hover:bg-cyan-50 transition-colors ${
-                                            index === selectedIndex ? 'bg-cyan-50' : ''
+                                        className={`w-full text-left px-4 py-3 hover:bg-cyan-50 dark:hover:bg-cyan-900/30 transition-colors ${
+                                            index === selectedIndex ? 'bg-cyan-50 dark:bg-cyan-900/30' : ''
                                         } ${index === 0 ? 'rounded-t-2xl' : ''} ${
                                             index === suggestions.length - 1 ? 'rounded-b-2xl' : ''
                                         }`}
                                     >
-                                        <span className="text-gray-700 font-medium">{suggestion}</span>
+                                        <span className="text-gray-700 dark:text-gray-200 font-medium transition-colors duration-300">{suggestion}</span>
                                     </button>
                                 ))}
                             </div>
@@ -306,7 +306,7 @@ export default function RecipeGenerator() {
                         </button>
                         <button
                             onClick={() => setShowCategories(!showCategories)}
-                            className="bg-gray-100 text-gray-700 px-3 sm:px-4 py-3 sm:py-4 rounded-2xl hover:bg-gray-200 transition-all active:scale-95 flex items-center gap-1 sm:gap-2 flex-shrink-0"
+                            className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-3 sm:px-4 py-3 sm:py-4 rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all active:scale-95 flex items-center gap-1 sm:gap-2 flex-shrink-0"
                         >
                             <ChevronDown size={18} className={`sm:w-5 sm:h-5 ${showCategories ? 'rotate-180 transition-transform' : ''}`} />
                             <span className="hidden sm:inline text-sm sm:text-base">Browse</span>
@@ -320,12 +320,12 @@ export default function RecipeGenerator() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mb-6 bg-gray-50 rounded-2xl p-3 sm:p-4 border-2 border-gray-100 max-h-[60vh] sm:max-h-96 overflow-y-auto"
+                        className="mb-6 bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-3 sm:p-4 border-2 border-gray-100 dark:border-gray-600 max-h-[60vh] sm:max-h-96 overflow-y-auto transition-colors duration-300"
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             {Object.entries(INGREDIENT_SUGGESTIONS).map(([category, items]) => (
-                                <div key={category} className="bg-white rounded-xl p-4 border border-gray-200">
-                                    <h3 className="font-bold text-gray-800 mb-2 text-sm">{category}</h3>
+                                <div key={category} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+                                    <h3 className="font-bold text-gray-800 dark:text-gray-100 mb-2 text-sm transition-colors duration-300">{category}</h3>
                                     <div className="flex flex-wrap gap-2">
                                         {items.slice(0, 6).map((item) => (
                                             <button
@@ -335,15 +335,15 @@ export default function RecipeGenerator() {
                                                 disabled={ingredients.includes(item)}
                                                 className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                                                     ingredients.includes(item)
-                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                        : 'bg-cyan-50 text-cyan-700 hover:bg-cyan-100 hover:shadow-sm'
+                                                        ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                                        : 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 hover:shadow-sm'
                                                 }`}
                                             >
                                                 {item}
                                             </button>
                                         ))}
                                         {items.length > 6 && (
-                                            <span className="px-3 py-1.5 text-xs text-gray-500">
+                                            <span className="px-3 py-1.5 text-xs text-gray-500 dark:text-gray-400 transition-colors duration-300">
                                                 +{items.length - 6} more
                                             </span>
                                         )}
@@ -361,7 +361,7 @@ export default function RecipeGenerator() {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                className="text-gray-400 italic w-full text-center py-2"
+                                className="text-gray-400 dark:text-gray-500 italic w-full text-center py-2 transition-colors duration-300"
                             >
                                 No ingredients added yet. Start typing above!
                             </motion.p>
@@ -373,12 +373,12 @@ export default function RecipeGenerator() {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
-                                className="bg-cyan-50 text-cyan-700 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 font-medium border border-cyan-100 shadow-sm text-sm sm:text-base"
+                                className="bg-cyan-50 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl flex items-center gap-1.5 sm:gap-2 font-medium border border-cyan-100 dark:border-cyan-800/50 shadow-sm text-sm sm:text-base transition-colors duration-300"
                             >
                                 {ing}
                                 <button
                                     onClick={() => removeIngredient(i)}
-                                    className="hover:text-red-500 hover:bg-red-50 rounded-full p-0.5 transition-colors"
+                                    className="hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-full p-0.5 transition-colors"
                                 >
                                     <X size={16} />
                                 </button>
@@ -409,7 +409,7 @@ export default function RecipeGenerator() {
                             <motion.p
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="text-red-500 mt-6 text-center bg-red-50 py-3 rounded-xl border border-red-100"
+                                className="text-red-500 dark:text-red-400 mt-6 text-center bg-red-50 dark:bg-red-900/20 py-3 rounded-xl border border-red-100 dark:border-red-800/50 transition-colors duration-300"
                             >
                                 {error}
                             </motion.p>
@@ -430,7 +430,7 @@ export default function RecipeGenerator() {
                             transition={{ type: "spring", stiffness: 200, damping: 15 }}
                             className="mb-4 sm:mb-6"
                         >
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-gradient-to-r from-cyan-50 to-blue-50 px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl border-2 border-cyan-200 shadow-lg">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30 px-3 sm:px-4 md:px-6 py-3 sm:py-4 md:py-5 rounded-xl sm:rounded-2xl border-2 border-cyan-200 dark:border-cyan-800/50 shadow-lg transition-colors duration-300">
                                 <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                                     <motion.div
                                         animate={{ 
@@ -444,20 +444,20 @@ export default function RecipeGenerator() {
                                         }}
                                         className="flex-shrink-0"
                                     >
-                                        <PartyPopper className="text-cyan-600 sm:w-6 sm:h-6" size={20} />
+                                        <PartyPopper className="text-cyan-600 dark:text-cyan-400 sm:w-6 sm:h-6 transition-colors duration-300" size={20} />
                                     </motion.div>
                                     <div className="min-w-0 flex-1">
-                                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-0.5 leading-tight">
+                                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-0.5 leading-tight transition-colors duration-300">
                                             Ta-da! Your Recipe is Ready!
                                         </h3>
-                                        <p className="text-xs sm:text-sm text-gray-600">
+                                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 transition-colors duration-300">
                                             Below is the recipe crafted especially for you
                                         </p>
                                     </div>
                                 </div>
                                 <button
                                     onClick={handleGenerateNew}
-                                    className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white text-cyan-600 rounded-lg font-medium hover:bg-cyan-50 border border-cyan-200 transition-all hover:shadow-sm active:scale-95 text-xs sm:text-sm md:text-base whitespace-nowrap flex-shrink-0"
+                                    className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 rounded-lg font-medium hover:bg-cyan-50 dark:hover:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800/50 transition-all hover:shadow-sm active:scale-95 text-xs sm:text-sm md:text-base whitespace-nowrap flex-shrink-0"
                                 >
                                     <Plus className="rotate-45 sm:w-4 sm:h-4" size={14} />
                                     <span className="hidden sm:inline">New Recipe</span>

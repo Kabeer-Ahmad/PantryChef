@@ -12,7 +12,7 @@ export default async function ProfilePage() {
     } = await supabase.auth.getUser()
 
     if (!user) {
-        redirect('/login')
+        redirect('/')
     }
 
     const { data: profile } = await supabase
@@ -22,10 +22,10 @@ export default async function ProfilePage() {
         .single()
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 py-12 pb-24 md:pb-12 relative overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12 pb-24 md:pb-12 relative overflow-hidden transition-colors duration-300">
             <AnimatedBackground />
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-8 sm:p-12">
+                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 dark:border-gray-700/50 p-8 sm:p-12 transition-colors duration-300">
                     <ProfileForm profile={profile} />
                 </div>
             </div>

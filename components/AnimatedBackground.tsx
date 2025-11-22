@@ -1,11 +1,39 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 export default function AnimatedBackground() {
+    const [isSafari, setIsSafari] = useState(false)
+
+    useEffect(() => {
+        // Detect Safari
+        const safari = typeof window !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+        setIsSafari(safari)
+    }, [])
+
+    // For Safari, use static gradients instead of animations to prevent cursor lag
+    if (isSafari) {
+        return (
+            <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+                {/* Static gradient blobs for Safari */}
+                <div className="absolute -top-20 -left-20 sm:top-0 sm:left-0 w-80 h-80 sm:w-[500px] sm:h-[500px] bg-gradient-to-br from-cyan-400/12 to-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute top-10 -right-20 sm:top-1/4 sm:right-0 w-72 h-72 sm:w-[450px] sm:h-[450px] bg-gradient-to-br from-blue-400/12 to-purple-500/10 rounded-full blur-3xl" />
+                <div className="absolute -bottom-20 left-10 sm:bottom-0 sm:left-1/4 w-64 h-64 sm:w-[400px] sm:h-[400px] bg-gradient-to-br from-cyan-300/12 to-pink-400/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-10 -right-10 sm:bottom-0 sm:right-1/3 w-80 h-80 sm:w-[500px] sm:h-[500px] bg-gradient-to-br from-blue-300/12 to-cyan-400/10 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 -left-10 sm:top-1/2 sm:left-0 w-56 h-56 sm:w-[350px] sm:h-[350px] bg-gradient-to-br from-purple-300/12 to-cyan-400/10 rounded-full blur-3xl" />
+                <div className="absolute -top-10 right-10 sm:top-0 sm:right-0 w-72 h-72 sm:w-[450px] sm:h-[450px] bg-gradient-to-br from-pink-300/12 to-blue-400/10 rounded-full blur-3xl" />
+
+                {/* Mesh gradient overlay */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-100/10 via-transparent to-blue-100/10 dark:from-cyan-900/5 dark:via-transparent dark:to-blue-900/5 transition-colors duration-300" />
+            </div>
+        )
+    }
+
+    // For other browsers, use full animations
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-            {/* Large Gradient Blobs - Main Animation - Spread out more */}
+            {/* Large Gradient Blobs - Main Animation */}
             <motion.div
                 className="absolute -top-20 -left-20 sm:top-0 sm:left-0 w-80 h-80 sm:w-[500px] sm:h-[500px] bg-gradient-to-br from-cyan-400/12 to-blue-500/10 rounded-full blur-3xl"
                 animate={{
@@ -96,7 +124,7 @@ export default function AnimatedBackground() {
                 }}
             />
 
-            {/* Smaller accent blobs - More spread out */}
+            {/* Smaller accent blobs */}
             <motion.div
                 className="absolute top-1/3 left-1/2 w-48 h-48 sm:w-64 sm:h-64 bg-gradient-to-br from-cyan-200/10 to-blue-300/8 rounded-full blur-2xl"
                 animate={{
@@ -140,8 +168,8 @@ export default function AnimatedBackground() {
                 }}
             />
 
-            {/* Mesh gradient overlay for depth */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-100/10 via-transparent to-blue-100/10" />
+            {/* Mesh gradient overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-100/10 via-transparent to-blue-100/10 dark:from-cyan-900/5 dark:via-transparent dark:to-blue-900/5 transition-colors duration-300" />
         </div>
     )
 }

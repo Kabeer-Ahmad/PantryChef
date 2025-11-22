@@ -12,7 +12,7 @@ export async function updateProfile(formData: FormData) {
     } = await supabase.auth.getUser()
 
     if (!user) {
-        redirect('/login')
+        redirect('/')
     }
 
     const name = formData.get('name') as string
